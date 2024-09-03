@@ -473,7 +473,7 @@ const AccountBalanceGraph: React.FC<{
   period: 'monthly' | 'yearly' | 'custom',
   customStartDate?: string,
   customEndDate?: string,
-  selectedAccountId?: string
+  selectedAccountId: string
 }> = ({ transactions, accounts, period, customStartDate, customEndDate, selectedAccountId }) => {
   const balanceData = useMemo(() => {
     let startDate = new Date();
@@ -496,7 +496,7 @@ const AccountBalanceGraph: React.FC<{
         break;
     }
 
-    const relevantAccounts = selectedAccountId
+    const relevantAccounts = selectedAccountId !== 'all'
       ? accounts.filter(a => a.id === selectedAccountId)
       : accounts;
 
@@ -554,7 +554,7 @@ export function App() {
   const [graphPeriod, setGraphPeriod] = useState<'monthly' | 'yearly' | 'custom'>('monthly');
   const [graphStepSize, setGraphStepSize] = useState<'day' | 'week' | 'month'>('day');
   const [graphFilters, setGraphFilters] = useState({});
-  const [selectedAccountForBalance, setSelectedAccountForBalance] = useState<string>('');
+  const [selectedAccountForBalance, setSelectedAccountForBalance] = useState<string>('all');
 
   const addTransaction = (transaction: Omit<Transaction, 'id'>) => {
     const newTransaction = { ...transaction, id: Date.now().toString() };
@@ -801,7 +801,7 @@ export function App() {
                       <SelectValue placeholder="Select account (or all)" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value={''}>All Accounts</SelectItem>
+                      <SelectItem value={'all'}>All Accounts</SelectItem>
                       {accounts.map((account) => (
                         <SelectItem key={account.id} value={account.id}>{account.name}</SelectItem>
                       ))}
