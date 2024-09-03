@@ -554,7 +554,7 @@ export function App() {
   const [graphPeriod, setGraphPeriod] = useState<'monthly' | 'yearly' | 'custom'>('monthly');
   const [graphStepSize, setGraphStepSize] = useState<'day' | 'week' | 'month'>('day');
   const [graphFilters, setGraphFilters] = useState({});
-  const [selectedAccountForBalance, setSelectedAccountForBalance] = useState<string | undefined>(undefined);
+  const [selectedAccountForBalance, setSelectedAccountForBalance] = useState<string>('');
 
   const addTransaction = (transaction: Omit<Transaction, 'id'>) => {
     const newTransaction = { ...transaction, id: Date.now().toString() };
@@ -801,7 +801,7 @@ export function App() {
                       <SelectValue placeholder="Select account (or all)" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value={undefined}>All Accounts</SelectItem>
+                      <SelectItem value={''}>All Accounts</SelectItem>
                       {accounts.map((account) => (
                         <SelectItem key={account.id} value={account.id}>{account.name}</SelectItem>
                       ))}
@@ -833,7 +833,7 @@ export function App() {
             onChange={importData}
             className="hidden"
           />
-          <Button as="span">
+          <Button>
             <UploadIcon className="mr-2 h-4 w-4" /> Import Data
           </Button>
         </label>
